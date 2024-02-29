@@ -12,7 +12,7 @@ class Invoice extends Model
 
   protected $fillable = [];
 
-  public function rCustomer() : BelongsTo
+  public function customer() : BelongsTo
   {
     return $this->belongsTo(Customer::class);
   }
