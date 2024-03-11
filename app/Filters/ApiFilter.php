@@ -30,10 +30,8 @@ class ApiFilter {
           $eloQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
         }
       }
-
-      return $eloQuery;
-      
     }
+    return $eloQuery;
   }
   
 

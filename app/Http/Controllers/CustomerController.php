@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 
-use App\Http\Resources\CustomerCollection;
 use App\Models\Customer;
+use App\Http\Resources\CustomerCollection;
 use App\Filters\CustomerFilters;
 
 class CustomerController extends Controller
@@ -20,10 +20,17 @@ class CustomerController extends Controller
     // Get the query items
     $filter = new CustomerFilters();
     $queryItems = $filter->transform($request);
+
+    // Include invoices
+    $includeInvoices = $request->query('includeInvoices');
     
     // Get all customers
     $customers = Customer::where($queryItems);
-    return new CustomerCollection( $customers->paginate()->appends($request->query() ));
+    if ($includeInvoices)  {
+      $customers = $customers->with('invoices');
+    }
+
+    return new CustomerCollection( $customers->paginate()->appends( $request->query() ) );
   }
 
   /**
